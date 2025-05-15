@@ -69,7 +69,8 @@ services:
       - saleor-redis:/data
 
   worker:
-    image: seansun88/sunstore:latest
+    # image: seansun88/sunstore:latest
+    image: ghcr.io/saleor/saleor:3.20
     command: celery -A saleor --app=saleor.celeryconf:app worker --loglevel=info -B
     restart: unless-stopped
     networks:
