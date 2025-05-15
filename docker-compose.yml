@@ -2,6 +2,7 @@ version: "3.4"
 
 services:
   api:
+    #image: seansun88/sunstore:latest
     image: ghcr.io/saleor/saleor:3.20
     ports:
       - 8000:8000
@@ -26,19 +27,20 @@ services:
       - ALLOWED_HOSTS=localhost,api,host.docker.internal
 
   dashboard:
+    # image: ghcr.io/saleor/saleor-dashboard:latest
     image: seansun88/sunstore-admin:latest
     ports: 
       - 9000:80
     restart: unless-stopped
   
   mall:
-    image: seansun88/sunstore-front:latest  # 假设您已构建并推送此镜像
+    image: seansun88/sunstore-front:latest
     ports:
       - 3000:3000
     restart: unless-stopped
     environment:
-      - NEXT_PUBLIC_SALEOR_API_URL=http://api:8000/graphql/  # 错误：混用了 - 和 :
-      - NEXT_PUBLIC_STOREFRONT_URL=http://localhost:3000/          
+      - NEXT_PUBLIC_SALEOR_API_URL=http://api:8000/graphql/
+      - NEXT_PUBLIC_STOREFRONT_URL=http://localhost:3000/
     depends_on:
       - api
 
