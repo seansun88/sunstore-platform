@@ -23,13 +23,24 @@ services:
     environment:
       - JAEGER_AGENT_HOST=jaeger
       - DASHBOARD_URL=http://localhost:9000/
-      - ALLOWED_HOSTS=localhost,api
+      - ALLOWED_HOSTS=localhost,api,host.docker.internal
 
   dashboard:
-    image: ghcr.io/saleor/saleor-dashboard:latest
-    ports:
+    image: seansun88/sunstore-admin:latest
+    ports: 
       - 9000:80
     restart: unless-stopped
+  
+  mall:
+    image: seansun88/sunstore-front:latest  # 假设您已构建并推送此镜像
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    environment:
+      - NEXT_PUBLIC_SALEOR_API_URL=http://api:8000/graphql/  # 错误：混用了 - 和 :
+      - NEXT_PUBLIC_STOREFRONT_URL=http://localhost:3000/          
+    depends_on:
+      - api
 
   db:
     image: library/postgres:15-alpine
@@ -56,7 +67,7 @@ services:
       - saleor-redis:/data
 
   worker:
-    image: ghcr.io/saleor/saleor:3.20
+    image: seansun88/sunstore:latest
     command: celery -A saleor --app=saleor.celeryconf:app worker --loglevel=info -B
     restart: unless-stopped
     networks:
