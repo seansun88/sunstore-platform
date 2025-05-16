@@ -33,18 +33,18 @@ services:
       - 9000:80
     restart: unless-stopped
   
-  mall:
-    image: seansun88/sunstore-front:latest
-    ports:
-      - 3000:3000
-    restart: unless-stopped
-    env_file:
-      - mall.env
-    environment:
-      - NEXT_PUBLIC_SALEOR_API_URL=${NEXT_PUBLIC_SALEOR_API_URL}
-      - NEXT_PUBLIC_STOREFRONT_URL=${NEXT_PUBLIC_STOREFRONT_URL}
-    depends_on:
-      - api
+  # mall:
+  #   image: seansun88/sunstore-front:latest
+  #   ports:
+  #     - 3000:3000
+  #   restart: unless-stopped
+  #   env_file:
+  #     - mall.env
+  #   environment:
+  #     - NEXT_PUBLIC_SALEOR_API_URL=${NEXT_PUBLIC_SALEOR_API_URL}
+  #     - NEXT_PUBLIC_STOREFRONT_URL=${NEXT_PUBLIC_STOREFRONT_URL}
+  #   depends_on:
+  #     - api
 
   db:
     image: library/postgres:15-alpine
